@@ -45,7 +45,7 @@ export class App {
       await this.registerRoutes();
       await this.registerPlugins();
       await this.fastify.listen({ port: this.tcpPort, host: "0.0.0.0" });
-      Utils.logs("system", `Crystal DDoS Mitigation runing on port ${this.tcpPort}`);
+      Utils.logs("system", `Crystal DDoS Mitigation\nBy Akbarrdev\n\nRuning on port ${this.tcpPort}`);
     } catch (err) {
       Utils.logs("error", err, "app.js");
       process.exit(1);

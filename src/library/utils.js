@@ -11,12 +11,15 @@ export class Utils {
       ? chalk.dim(` ${figures.pointerSmall} ${pathORFilename}`)
       : "";
 
-    let icon, color, title;
+    let icon, color, title, options = {};
     switch (type) {
       case "system":
         icon = figures.home;
         color = chalk.blue;
         title = "SYSTEM";
+        options = {
+          textAlignment: "center"
+        }
         break;
       case "info":
         icon = figures.info;
@@ -50,11 +53,18 @@ export class Utils {
       typeof message === "object" ? JSON.stringify(message, null, 2) : message;
 
     console.log(
-      boxen(`${header} ${timeInfo}\n\n${color(formattedMessage)}${fileInfo}`, {
-        padding: 1,
-        margin: 1,
-        borderStyle: "round",
-      })
+      boxen(
+        `${type == "system" ? "" : `${header} ${timeInfo}\n\n`} ${color(
+          formattedMessage
+        )}${fileInfo}`,
+        {
+          padding: 1,
+          margin: 1,
+          borderStyle: "round",
+          float: "center",
+          ...options,
+        }
+      )
     );
   }
 }
