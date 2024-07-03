@@ -1,14 +1,18 @@
 {
   "name": "crystal-ddos-mitigation",
   "version": "1.0.0",
-  "description": "Advanced DDoS Mitigation using NodeJS",
+  "description": "Advanced DDoS Mitigation using NodeJS especially for GTPS with build-in AI that can connect to your GTPS using Redis",
   "main": "src/main.js",
+  "type": "module",
   "scripts": {
+    "start": "node --no-warnings src/main.js",
+    "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Akbarrdev",
   "license": "ISC",
   "dependencies": {
+    "@fastify/autoload": "^5.10.0",
     "@fastify/cookie": "^9.3.1",
     "@fastify/csrf-protection": "^6.4.1",
     "@fastify/helmet": "^11.1.1",
@@ -16,9 +20,13 @@
     "@fastify/static": "^7.0.4",
     "@fastify/under-pressure": "^8.5.0",
     "@maxmind/geoip2-node": "^5.0.0",
+    "boxen": "^7.1.1",
+    "chalk": "^5.3.0",
     "fastify": "^4.28.1",
     "fastify-metrics": "^11.0.0",
     "fastify-plugin": "^4.5.1",
+    "figures": "^6.1.0",
+    "gradient-string": "^2.0.2",
     "moment": "^2.30.1",
     "nodemon": "^3.1.4"
   }

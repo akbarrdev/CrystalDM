@@ -1,0 +1,56 @@
+{
+    "system": {
+        "redis": {
+            "host": "localhost",
+            "port": 6379
+        },
+        "logger": false,
+        "debug": "true"
+    },
+    "server": {
+        "tcpPort": 443,
+        "udpPort": 19132,
+        "host": "0.0.0.0",
+        "information": {
+            "name": "GTPS",
+            "developer": "Akbarrdev",
+            "version": "1.0.0"
+        }
+    },
+    "security": {
+        "auto-blacklist": true,
+        "whitelist": [
+            "127.0.0.1",
+            "localhost"
+        ],
+        "blockedCountry": ["NG", "VN", "IN", "RU", "CN", "BR"],
+        "protectedPath": [
+            "/wp-login.php",
+            "/phpmyadmin"
+        ],
+        "underAttack": {
+            "enabled": "true",
+            "discord-webhook-report-channel": "YOUR_WEBHOOK",
+            "settings": {
+                "maxEventLoopDelay": 1000,
+                "maxHeapUsedBytes": 300000000,
+                "maxRssBytes": 200000000,
+                "maxEventLoopUtilization": 0.9,
+                "message": "sek cuy lg overloadd",
+                "retryAfter": 50
+            }
+        },
+        "rateLimiter": {
+            "limit": 10,
+            "per": "1 minute",
+            "cache": 10000,
+            "headers": {
+                "x-protected-by": "Akbarrdev Backend - 2024",
+                "x-ratelimit-limit": true,
+                "x-ratelimit-remaining": true,
+                "x-ratelimit-reset": true,
+                "retry-after": true
+            }
+        }
+    }
+}
