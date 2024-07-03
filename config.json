@@ -11,6 +11,10 @@
         "tcpPort": 443,
         "udpPort": 19132,
         "host": "0.0.0.0",
+        "https": {
+            "key": "src/cert/key.pem",
+            "cert": "src/cert/cert.pem"
+        },
         "information": {
             "name": "GTPS",
             "developer": "Akbarrdev",

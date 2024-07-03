@@ -1,3 +1,7 @@
+
+
 export default async function (fastify, options) {
-  // Kode plugin di sini
+  fastify.get("/", async (request, reply) => {
+    return reply.sendFile("index.html");
+  });
 }
