@@ -1,5 +1,4 @@
 import fastify from "fastify";
-import fastifyStatic from '@fastify/static';
 import autoload from "@fastify/autoload";
 import httpsRedirect from "fastify-https-redirect";
 import fs from "fs";
@@ -33,10 +32,6 @@ export class App {
   async registerPlugins() {
     try {
       await this.fastify.register(httpsRedirect);
-      await this.fastify.register(fastifyStatic, {
-  root: join(__dirname, "public"),
-  prefix: '/', 
-});
       await this.fastify.register(autoload, {
         dir: join(__dirname, "plugins"),
         options: { prefix: "plugins" },
@@ -50,7 +45,7 @@ export class App {
     try {
       await this.fastify.register(autoload, {
         dir: join(__dirname, "routes"),
-        options: { prefix: "api" },
+        options: { prefix: "" },
       });
     } catch (err) {
       Utils.logs("error", `Error: ${err}`);
