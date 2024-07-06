@@ -68,7 +68,7 @@ export default async function (fastify, options) {
 
   Utils.logs(
     "info",
-    "Adaptive Rate Limiter plugin is active",
+    "Adaptive Rate Limiter is active",
     "Adaptive Rate Limiter Plugin"
   );
 }

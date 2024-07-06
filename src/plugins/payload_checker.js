@@ -19,41 +19,50 @@ export default async function (fastify, options) {
     fastify.addHook("preHandler", async (request, reply) => {
       const clientIp = request.ip;
 
-      // Periksa query string
       if (checkPayload(request.url)) {
         Utils.logs(
           "warn",
           `Suspicious query detected from ${clientIp}`,
-          "WAF Plugin"
+          "Payload Checker Plugin"
         );
         return reply.code(403).send("Forbidden");
       }
 
-      // Periksa body jika ada
+      if (request.method === "HEAD") {
+        reply.code(405).send("ngapain?");
+        return;
+      }
+
       if (request.body && checkPayload(JSON.stringify(request.body))) {
         Utils.logs(
           "warn",
           `Suspicious payload detected from ${clientIp}`,
-          "WAF Plugin"
+          "Payload Checker Plugin"
         );
         return reply.code(403).send("Forbidden");
       }
 
-      // Periksa headers
       for (let header in request.headers) {
         if (checkPayload(request.headers[header])) {
           Utils.logs(
             "warn",
             `Suspicious header detected from ${clientIp}`,
-            "WAF Plugin"
+            "Payload Checker Plugin"
           );
           return reply.code(403).send("Forbidden");
         }
       }
+
+      const userAgent = request.headers["user-agent"];
+
+      if (!userAgent) {
+        reply.code(403).send("ngapain?");
+        return;
+      }
     });
 
-    Utils.logs("info", "WAF plugin is active", "WAF Plugin");
+    Utils.logs("info", "Payload checker is watching", "Payload Checker Plugin");
   } catch (err) {
-    Utils.logs("error", err, "WAF.js", 0);
+    Utils.logs("error", err, "payload_checker.js", 0);
   }
 }

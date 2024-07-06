@@ -43,5 +43,5 @@ export default async function (fastify, options) {
     }
   });
 
-  Utils.logs("info", "IP Reputation plugin is active", "IP Reputation Plugin");
+  Utils.logs("info", "IP Reputation Checker is active", "IP Reputation Plugin");
 }

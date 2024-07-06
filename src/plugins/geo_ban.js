@@ -14,17 +14,6 @@ export default async function (fastify, options) {
     ];
   fastify.addHook("onRequest", async (request, reply) => {
     const clientIp = request.ip;
-    const userAgent = request.headers["user-agent"];
-
-    if (request.method === "HEAD") {
-      reply.code(405).send("ngapain?");
-      return;
-    }
-
-    if (!userAgent) {
-      reply.code(403).send("ngapain?");
-      return;
-    }
 
     try {
       const geoResponse = geoipReader.country(clientIp);
@@ -70,7 +59,7 @@ export default async function (fastify, options) {
     "info",
     `${
       cfg.security.geo.mode === "whitelist" ? "Whitelist" : "Blacklist"
-    } country loaded (${listCountry})`,
+    } country loaded (${listCountry.join(", ")})`,
     "Geo Plugin",
     0
   );
