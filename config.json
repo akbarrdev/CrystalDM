@@ -4,7 +4,7 @@
             "host": "localhost",
             "port": 6379
         },
-        "logger": false,
+        "fastifyLogger": false,
         "debug": "true"
     },
     "server": {
@@ -22,15 +22,34 @@
         }
     },
     "security": {
-        "auto-blacklist": true,
+        "autoBlacklist": {
+            "enabled": true,
+            "blacklistPath": "blacklisted.json"
+        },
         "whitelist": [
             "127.0.0.1",
             "localhost"
         ],
-        "blockedCountry": ["NG", "VN", "IN", "RU", "CN", "BR"],
+        "geo": {
+            "mode": "whitelist",
+            "whitelistCountry": [
+                "ID",
+                "MY",
+                "PH"
+            ],
+            "blacklistCountry": [
+                "NG",
+                "VN",
+                "IN",
+                "RU",
+                "CN",
+                "BR"
+            ]
+        },
         "protectedPath": [
             "/wp-login.php",
-            "/phpmyadmin"
+            "/phpmyadmin",
+            "/growtopia"
         ],
         "underAttack": {
             "enabled": "true",
@@ -55,6 +74,17 @@
                 "x-ratelimit-reset": true,
                 "retry-after": true
             }
+        },
+        "ipReputation": {
+            "enabled": true,
+            "apikey": "YOUR_API_KEY",
+            "threshold": 50
+        },
+        "adaptiveRateLimit": {
+            "enabled": true,
+            "defaultLimit": 100,
+            "minInterval": 1000,
+            "cleanupInterval": 600000
         }
     }
 }

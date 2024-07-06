@@ -16,7 +16,7 @@ export class App {
     this.tcpPort = tcpPort;
     this.udpPort = udpPort;
     this.fastify = fastify({
-      logger: cfg.system.logger,
+      logger: cfg.system.fastifyLogger,
       trustProxy: true,
       http2: true,
       https: cfg.server.https
@@ -54,13 +54,13 @@ export class App {
 
   async start() {
     try {
-      await this.registerRoutes();
-      await this.registerPlugins();
-      await this.fastify.listen({ port: this.tcpPort, host: cfg.server.host });
       Utils.logs(
         "system",
         `Crystal DDoS Mitigation\nBy Akbarrdev\n\nRuning on port ${this.tcpPort}`
       );
+      await this.registerRoutes();
+      await this.registerPlugins();
+      await this.fastify.listen({ port: this.tcpPort, host: cfg.server.host });
     } catch (err) {
       Utils.logs("error", err, "app.js");
       process.exit(1);

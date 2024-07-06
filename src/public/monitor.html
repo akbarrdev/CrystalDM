@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CrystalDM Server Monitor</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="assets/css/monitor.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>CrystalDM Server Monitor</h1>
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-info">
+            <h3>CPU Usage</h3>
+            <p id="cpuUsage">Unable to load</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="cpuChart"></canvas>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-info">
+            <h3>Memory Usage</h3>
+            <p id="memoryUsage">Unable to load</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="memoryChart"></canvas>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-info">
+            <h3>Response Time</h3>
+            <p id="responseTime">Unable to load</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="responseTimeChart"></canvas>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-info">
+            <h3>Open Connections</h3>
+            <p id="openConnections">Unable to load</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="connectionsChart"></canvas>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-info">
+            <h3>Uptime</h3>
+            <p id="uptime">Unable to load</p>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="watermark">
+        created by <a href="https://github.com/akbarrdev">Akbarrdev</a>
+      </div>
+    </div>
+    <script src="assets/js/monitor.js"></script>
+  </body>
+</html>

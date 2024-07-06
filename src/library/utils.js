@@ -9,7 +9,7 @@ export class Utils {
       const timestamp = moment().locale("id").format("HH:mm:ss");
       const latencyStr = latency ? chalk.gray(`${latency}ms`) : "";
       const timeInfo = chalk.gray(`[${timestamp}]${latencyStr}`);
-      const noHeader = ["GET", "system"];
+      const noHeader = ["GET", "system", "info"];
       const fileInfo = pathORFilename
         ? chalk.dim(` ${figures.pointerSmall} ${pathORFilename}`)
         : "";
@@ -27,29 +27,31 @@ export class Utils {
       };
       switch (type) {
         case "system":
-          icon = figures.home;
           color = chalk.blue;
           title = "SYSTEM";
           options.textAlignment = "center";
           options.fullscreen = (width) => [width];
           break;
         case "info":
-          icon = figures.info;
-          color = chalk.blue;
-          title = "INFO";
+          color = chalk.greenBright;
+          title = `INFO`;
+          options.title = `INFO`;
+          options.fullscreen = (width) => [width];
+          options.titleAlignment = "center";
+          options.textAlignment = "center";
+          options.float = "left";
+          options.padding = 0;
+          options.margin = 0;
           break;
         case "warn":
-          icon = figures.warning;
           color = chalk.yellow;
           title = "WARN";
           break;
         case "error":
-          icon = figures.cross;
           color = chalk.red;
           title = "ERROR";
           break;
         case "GET":
-          icon = figures.arrowRight;
           color = chalk.green;
           title = "GET";
           options.textAlignment = "left";
@@ -69,15 +71,14 @@ export class Utils {
           );
           break;
         default:
-          icon = figures.bullet;
           color = chalk.white;
           title = "LOG";
       }
 
-      const header = rawHeader || color(`${icon} ${title}`);
+      const header = rawHeader || color(`${title}`);
       const finalMessage =
         rawFinalMessage ||
-        `${noHeader.includes(type) ? "" : `${header} ${timeInfo}\n\n`} ${color(
+        `${noHeader.includes(type) ? "" : `${timeInfo} ${header}\n\n`} ${color(
           formattedMessage
         )}${fileInfo}`;
 

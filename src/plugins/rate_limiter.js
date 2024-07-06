@@ -1,5 +1,6 @@
 import cfg from "../../config.json" assert { type: "json" };
 import rateLimit  from "@fastify/rate-limit"
+import { Utils } from "../library/utils.js";
 
 export default async function (fastify, options) {
   try {
@@ -11,6 +12,7 @@ export default async function (fastify, options) {
       skipOnError: false,
       addHeaders: cfg.security.rateLimiter.headers,
     });
+    Utils.logs("info", `Rate limiter is active (limit: ${cfg.security.rateLimiter.limit}, per: ${cfg.security.rateLimiter.per})`, "Rate Limiter Plugin", 0);
   } catch (err) {
     Utils.logs("error", `Error: ${err.message}`);
   }
