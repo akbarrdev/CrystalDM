@@ -18,6 +18,7 @@ let lastCpuTimes = lastCpuInfo.reduce(
 );
 
 // async function getActiveProcesses() {
+// jangan dipake, makan memory
 //   try {
 //     const { stdout } = await execPromise("tasklist /FO CSV /NH");
 //     return stdout.trim().split("\n").length;

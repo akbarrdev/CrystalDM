@@ -12,7 +12,7 @@ const suspiciousPatterns = [
 const checkPayload = (payload) => {
   if (typeof payload !== "string") return false;
   return suspiciousPatterns.some((pattern) => pattern.test(payload));
-};
+}; 
 
 export default async function (fastify, options) {
   if (cfg.security.payloadChecker.enabled) {

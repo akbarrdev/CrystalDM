@@ -5,13 +5,14 @@
             "port": 6379
         },
         "fastifyLogger": false,
-        "debug": "true"
+        "debug": true
     },
     "server": {
         "tcpPort": 443,
-        "udpPort": 19132,
+        "udpPort": 888,
         "host": "127.0.0.1",
         "https": {
+            "enabled": true,
             "key": "src/cert/key.pem",
             "cert": "src/cert/cert.pem"
         },

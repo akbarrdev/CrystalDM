@@ -19,7 +19,7 @@ export class App {
       logger: cfg.system.fastifyLogger,
       trustProxy: true,
       http2: true,
-      https: cfg.server.https
+      https: cfg.server.https.enabled
         ? {
             allowHTTP1: true,
             key: fs.readFileSync(cfg.server.https.key),
@@ -27,12 +27,14 @@ export class App {
           }
         : null,
     });
-    this.fastify.addHook("onRequest", (request, reply, done) => {
-      console.log(
-        `[${new Date().toISOString()}] ${request.method} ${request.url}`
-      );
-      done();
-    });
+    if (cfg.system.debug) {
+      this.fastify.addHook("onRequest", (request, reply, done) => {
+        console.log(
+          `[${new Date().toISOString()}] ${request.method} ${request.url}`
+        );
+        done();
+      });
+    }
   }
 
   async registerPlugins() {
@@ -66,7 +68,7 @@ export class App {
       );
       await this.registerRoutes();
       await this.registerPlugins();
-      await this.fastify.listen({ port: this.tcpPort, host: "0.0.0.0" });
+      await this.fastify.listen({ port: this.tcpPort });
     } catch (err) {
       Utils.logs("error", err, "app.js");
       process.exit(1);
