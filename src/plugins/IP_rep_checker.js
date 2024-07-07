@@ -29,19 +29,31 @@ async function checkIPReputation(ip) {
 }
 
 export default async function (fastify, options) {
-  fastify.addHook("onRequest", async (request, reply) => {
-    const clientIp = request.ip;
-    const reputationScore = await checkIPReputation(clientIp);
+  if (cfg.security.ipReputation.enabled) {
+    fastify.addHook("onRequest", async (request, reply) => {
+      const clientIp = request.ip;
+      const reputationScore = await checkIPReputation(clientIp);
 
-    if (reputationScore > cfg.security.ipReputation.threshold) {
-      Utils.logs(
-        "warn",
-        `Blocked request from suspicious IP: ${clientIp} (Score: ${reputationScore})`,
-        "IP Reputation Plugin"
-      );
-      reply.code(403).send("Access denied due to suspicious IP reputation");
-    }
-  });
+      if (reputationScore > cfg.security.ipReputation.threshold) {
+        Utils.logs(
+          "warn",
+          `Blocked request from suspicious IP: ${clientIp} (Score: ${reputationScore})`,
+          "IP Reputation Plugin"
+        );
+        reply.code(403).send("Access denied due to suspicious IP reputation");
+      }
+    });
 
-  Utils.logs("info", "IP Reputation Checker is active", "IP Reputation Plugin");
+    Utils.logs(
+      "info",
+      "IP Reputation Checker is active",
+      "IP Reputation Plugin"
+    );
+  } else {
+    Utils.logs(
+      "info",
+      "IP Reputation Checker is disabled.",
+      "IP Reputation Plugin"
+    );
+  }
 }

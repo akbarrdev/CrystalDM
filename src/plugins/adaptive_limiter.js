@@ -37,38 +37,45 @@ function getAdaptiveLimit(clientIp) {
 }
 
 export default async function (fastify, options) {
-  fastify.addHook("onRequest", async (request, reply) => {
-    const clientIp = request.ip;
-    const requestTime = Date.now();
+  if (cfg.security.adaptiveRateLimit.enabled) {
+    fastify.addHook("onRequest", async (request, reply) => {
+      const clientIp = request.ip;
+      const requestTime = Date.now();
 
-    updateClientStats(clientIp, requestTime);
-    const limit = getAdaptiveLimit(clientIp);
+      updateClientStats(clientIp, requestTime);
+      const limit = getAdaptiveLimit(clientIp);
 
-    if (clientStats.get(clientIp).count > limit) {
-      Utils.logs(
-        "warn",
-        `Adaptive rate limit exceeded for IP: ${clientIp}`,
-        "Adaptive Rate Limiter Plugin"
-      );
-      reply.code(429).send("Too Many Requests");
-    }
-  });
-
-  setInterval(() => {
-    const now = Date.now();
-    for (const [ip, stats] of clientStats.entries()) {
-      if (
-        now - stats.lastRequest >
-        cfg.security.adaptiveRateLimit.cleanupInterval
-      ) {
-        clientStats.delete(ip);
+      if (clientStats.get(clientIp).count > limit) {
+        Utils.logs(
+          "warn",
+          `Adaptive rate limit exceeded for IP: ${clientIp}`,
+          "Adaptive Rate Limiter Plugin"
+        );
+        reply.code(429).send("Too Many Requests");
       }
-    }
-  }, cfg.security.adaptiveRateLimit.cleanupInterval);
+    });
 
-  Utils.logs(
-    "info",
-    "Adaptive Rate Limiter is active",
-    "Adaptive Rate Limiter Plugin"
-  );
+    setInterval(() => {
+      const now = Date.now();
+      for (const [ip, stats] of clientStats.entries()) {
+        if (
+          now - stats.lastRequest >
+          cfg.security.adaptiveRateLimit.cleanupInterval
+        ) {
+          clientStats.delete(ip);
+        }
+      }
+    }, cfg.security.adaptiveRateLimit.cleanupInterval);
+    Utils.logs(
+      "info",
+      "Adaptive Rate Limiter is active",
+      "Adaptive Rate Limiter Plugin"
+    );
+  } else {
+    Utils.logs(
+      "info",
+      "Adaptive Rate Limiter is disabled.",
+      "Adaptive Rate Limiter Plugin"
+    );
+  }
 }

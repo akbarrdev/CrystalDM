@@ -70,6 +70,25 @@ export class Utils {
               chalk.green(`${formattedMessage}${fileInfo}`)
           );
           break;
+        case "growtopia":
+          color = chalk.green;
+          title = "GROWTOPIA";
+          options.textAlignment = "left";
+          options.float = "left";
+          options.borderStyle = "single";
+          options.padding = 0;
+          options.margin = 0;
+          options.title = "GROWTOPIA";
+          options.titleAlignments = "left";
+          options.borderColor = "blue";
+          rawFinalMessage = chalk.blueBright(
+            chalk.white("[") +
+              chalk.blueBright(latencyStr) +
+              chalk.white("]") +
+              chalk.green(" ") +
+              chalk.blueBright(`${formattedMessage}${fileInfo}`)
+          );
+          break;
         default:
           color = chalk.white;
           title = "LOG";

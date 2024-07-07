@@ -27,6 +27,12 @@ export class App {
           }
         : null,
     });
+    this.fastify.addHook("onRequest", (request, reply, done) => {
+      console.log(
+        `[${new Date().toISOString()}] ${request.method} ${request.url}`
+      );
+      done();
+    });
   }
 
   async registerPlugins() {
@@ -60,7 +66,7 @@ export class App {
       );
       await this.registerRoutes();
       await this.registerPlugins();
-      await this.fastify.listen({ port: this.tcpPort, host: cfg.server.host });
+      await this.fastify.listen({ port: this.tcpPort, host: "0.0.0.0" });
     } catch (err) {
       Utils.logs("error", err, "app.js");
       process.exit(1);

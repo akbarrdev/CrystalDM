@@ -15,54 +15,66 @@ const checkPayload = (payload) => {
 };
 
 export default async function (fastify, options) {
-  try {
-    fastify.addHook("preHandler", async (request, reply) => {
-      const clientIp = request.ip;
+  if (cfg.security.payloadChecker.enabled) {
+    try {
+      fastify.addHook("preHandler", async (request, reply) => {
+        const clientIp = request.ip;
 
-      if (checkPayload(request.url)) {
-        Utils.logs(
-          "warn",
-          `Suspicious query detected from ${clientIp}`,
-          "Payload Checker Plugin"
-        );
-        return reply.code(403).send("Forbidden");
-      }
-
-      if (request.method === "HEAD") {
-        reply.code(405).send("ngapain?");
-        return;
-      }
-
-      if (request.body && checkPayload(JSON.stringify(request.body))) {
-        Utils.logs(
-          "warn",
-          `Suspicious payload detected from ${clientIp}`,
-          "Payload Checker Plugin"
-        );
-        return reply.code(403).send("Forbidden");
-      }
-
-      for (let header in request.headers) {
-        if (checkPayload(request.headers[header])) {
+        if (checkPayload(request.url)) {
           Utils.logs(
             "warn",
-            `Suspicious header detected from ${clientIp}`,
+            `Suspicious query detected from ${clientIp}`,
             "Payload Checker Plugin"
           );
           return reply.code(403).send("Forbidden");
         }
-      }
 
-      const userAgent = request.headers["user-agent"];
+        if (request.method === "HEAD") {
+          reply.code(405).send("ngapain?");
+          return;
+        }
 
-      if (!userAgent) {
-        reply.code(403).send("ngapain?");
-        return;
-      }
-    });
+        if (request.body && checkPayload(JSON.stringify(request.body))) {
+          Utils.logs(
+            "warn",
+            `Suspicious payload detected from ${clientIp}`,
+            "Payload Checker Plugin"
+          );
+          return reply.code(403).send("Forbidden");
+        }
 
-    Utils.logs("info", "Payload checker is watching", "Payload Checker Plugin");
-  } catch (err) {
-    Utils.logs("error", err, "payload_checker.js", 0);
+        for (let header in request.headers) {
+          if (checkPayload(request.headers[header])) {
+            Utils.logs(
+              "warn",
+              `Suspicious header detected from ${clientIp}`,
+              "Payload Checker Plugin"
+            );
+            return reply.code(403).send("Forbidden");
+          }
+        }
+
+        const userAgent = request.headers["user-agent"];
+
+        if (!userAgent) {
+          reply.code(403).send("ngapain?");
+          return;
+        }
+      });
+
+      Utils.logs(
+        "info",
+        "Payload checker is watching",
+        "Payload Checker Plugin"
+      );
+    } catch (err) {
+      Utils.logs("error", err, "payload_checker.js", 0);
+    }
+  } else {
+    Utils.logs(
+      "info",
+      "Payload checker is disabled.",
+      "Payload Checker Plugin"
+    );
   }
 }
