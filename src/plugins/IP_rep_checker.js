@@ -31,6 +31,11 @@ async function checkIPReputation(ip) {
 export default async function (fastify, options) {
   if (cfg.security.ipReputation.enabled) {
     fastify.addHook("onRequest", async (request, reply) => {
+      console.log(
+        `[${new Date().toLocaleString("id-ID", {
+          timeZone: "Asia/Jakarta",
+        })}] ${request.method} ${request.url}`
+      );
       const clientIp = request.ip;
       const reputationScore = await checkIPReputation(clientIp);
 

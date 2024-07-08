@@ -29,50 +29,51 @@ const blockedUserAgent = [
 ];
 
 export default async function (fastify, options) {
-  // try {
-  //   fastify.post("/growtopia/server_data.php", async (request, reply) => {
-  //     const fullURL = request.protocol + "://" + request.hostname + request.url;
-  //     console.log(fullURL)
-  //     const userAgent = request.headers["user-agent"] || "";
+  fastify.post("/growtopia/*", async (request, reply) => {
+    try {
+      console.log("hit")
+      const fullURL = request.protocol + "://" + request.hostname + request.url;
+      console.log(fullURL);
+      const userAgent = request.headers["user-agent"] || "";
 
-  //     if (
-  //       blockedUserAgent.some((agent) =>
-  //         userAgent.toLowerCase().includes(agent.toLowerCase())
-  //       )
-  //     ) {
-  //       Utils.logs(
-  //         "warn",
-  //         request.ip,
-  //         "Blocked User Agent: " + userAgent,
-  //         fullURL,
-  //         0
-  //       );
-  //       return reply.code(403).send("ngapain?");
-  //     }
-  //     if (
-  //       (request.headers["accept"] == "*/*" &&
-  //         request.headers["connection"] == "close") ||
-  //       (request.headers["accept"] == "*/*" && request.httpVersion == "1.0")
-  //     ) {
-  //       Utils.logs(
-  //         "growtopia",
-  //         request.ip +
-  //           ` (${
-  //             request.headers["accept"] == "*/*" && request.httpVersion == "1.0"
-  //               ? "Android player"
-  //               : "PC player"
-  //           })`,
-  //         fullURL,
-  //         reply.elapsedTime.toFixed(4)
-  //       );
-  //       const gtpsdata = gtpsData(cfg.server.host, cfg.server.udpPort);
-  //       console.log(gtpsdata);
-  //       return reply.code(200).send(gtpsdata);
-  //     }
-  //   });
-  // } catch (err) {
-  //   Utils.logs("error", err, "growtopia.js", 0);
-  // }
+      // if (
+      //   blockedUserAgent.some((agent) =>
+      //     userAgent.toLowerCase().includes(agent.toLowerCase())
+      //   )
+      // ) {
+      //   Utils.logs(
+      //     "warn",
+      //     request.ip,
+      //     "Blocked User Agent: " + userAgent,
+      //     fullURL,
+      //     0
+      //   );
+      //   return reply.code(403).send("ngapain?");
+      // }
+      // if (
+      //   (request.headers["accept"] == "*/*" &&
+      //     request.headers["connection"] == "close") ||
+      //   (request.headers["accept"] == "*/*" && request.httpVersion == "1.0")
+      // ) {
+      //   Utils.logs(
+      //     "growtopia",
+      //     request.ip +
+      //       ` (${
+      //         request.headers["accept"] == "*/*" && request.httpVersion == "1.0"
+      //           ? "Android player"
+      //           : "PC player"
+      //       })`,
+      //     fullURL,
+      //     reply.elapsedTime.toFixed(4)
+      //   );
+      //   const gtpsdata = gtpsData(cfg.server.host, cfg.server.udpPort);
+      console.log(gtpsdata);
+      return reply.code(200).send(gtpsdata);
+      // }
+    } catch (err) {
+      Utils.logs("error", err, "growtopia.js", 0);
+    }
+  });
 }
 
 function gtpsData(IP, udpPort, maintText = "") {

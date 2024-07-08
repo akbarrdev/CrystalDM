@@ -17,7 +17,7 @@ export class App {
     this.udpPort = udpPort;
     this.fastify = fastify({
       logger: cfg.system.fastifyLogger,
-      trustProxy: true,
+      // trustProxy: true,
       http2: true,
       https: cfg.server.https.enabled
         ? {
@@ -26,11 +26,21 @@ export class App {
             cert: fs.readFileSync(cfg.server.https.cert),
           }
         : null,
+      // connectionTimeout: 30000,
+      // keepAliveTimeout: 5000,
+      // forceCloseConnections: true,
+      // bodyLimit: 1048576, // 1MB
+      // maxParamLength: 100,
+      // ignoreTrailingSlash: true,
+      // ignoreDuplicateSlashes: true,
+      // disableRequestLogging: cfg.system.fastifyLogger ? false : true,
     });
     if (cfg.system.debug) {
       this.fastify.addHook("onRequest", (request, reply, done) => {
         console.log(
-          `[${new Date().toISOString()}] ${request.method} ${request.url}`
+          `[${new Date().toLocaleString("id-ID", {
+            timeZone: "Asia/Jakarta",
+          })}] ${request.method} ${request.url}`
         );
         done();
       });
