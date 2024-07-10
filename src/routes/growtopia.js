@@ -29,7 +29,7 @@ const blockedUserAgent = [
 ];
 
 export default async function (fastify, options) {
-  fastify.addHook("onRequest", (request, reply, done) => {
+  fastify.addHook("preHandler", (request, reply, done) => {
     console.log(
       `[${new Date().toLocaleString("id-ID", {
         timeZone: "Asia/Jakarta",

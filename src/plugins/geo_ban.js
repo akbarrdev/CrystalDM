@@ -18,17 +18,21 @@ export default fastifyPlugin(async function (fastify, options) {
       const clientIp = request.ip;
 
       try {
-        const geoResponse = geoipReader.country(clientIp);
+        const geoResponse = clientIp === '127.0.0.1' ? null : geoipReader.country(clientIp);
+        if (!geoResponse) return;
         const country = geoResponse.country.isoCode;
         if (
-          (cfg.security.geo.mode == "blacklist" &&
-            cfg.security.geo.blacklistCountry.includes(country)) ||
-          (cfg.security.geo.mode == "whitelist" &&
-            cfg.security.geo.whitelistCountry.includes(country))
+          cfg.security.geo.mode == "blacklist" &&
+          cfg.security.geo.blacklistCountry.includes(country) &&
+          clientIp != "127.0.0.1" ||
+          cfg.security.geo.mode == "whitelist" &&
+          cfg.security.geo.whitelistCountry.includes(country) &&
+          clientIp != "127.0.0.1"
         ) {
           Utils.logs(
             "warn",
-            `Blocked access from ${country} (IP: ${clientIp})`
+            `Blocked access from ${country} (IP: ${clientIp})`,
+            "Geo Ban Plugin"
           );
           reply.code(403).send({
             code: 403,
@@ -42,7 +46,8 @@ export default fastifyPlugin(async function (fastify, options) {
       } catch (error) {
         Utils.logs(
           "warn",
-          `Unable to resolve country for IP: ${clientIp}. Error: ${error}`
+          `Unable to resolve country for IP: ${clientIp}.\nError: ${error}`,
+          "Geo Ban Plugin"
         );
       }
 
@@ -71,4 +76,4 @@ export default fastifyPlugin(async function (fastify, options) {
   } else {
     Utils.logs("info", "Geo Ban is disabled.", "Geo Ban Plugin");
   }
-})
+});

@@ -46,8 +46,7 @@
         },
         "protectedPath": [
             "/wp-login.php",
-            "/phpmyadmin",
-            "/growtopia"
+            "/phpmyadmin"
         ],
         "underAttack": {
             "enabled": true,

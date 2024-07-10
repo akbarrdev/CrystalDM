@@ -27,26 +27,26 @@ export class App {
             cert: fs.readFileSync(cfg.server.https.cert),
           }
         : null,
-      // connectionTimeout: 30000,
-      // keepAliveTimeout: 5000,
-      // forceCloseConnections: true,
-      // bodyLimit: 1048576, // 1MB
-      // maxParamLength: 100,
-      // ignoreTrailingSlash: true,
-      // ignoreDuplicateSlashes: true,
-      // disableRequestLogging: cfg.system.fastifyLogger ? false : true,
+      connectionTimeout: 30000,
+      keepAliveTimeout: 5000,
+      forceCloseConnections: true,
+      bodyLimit: 1048576, // 1MB
+      maxParamLength: 100,
+      ignoreTrailingSlash: true,
+      ignoreDuplicateSlashes: true,
+      disableRequestLogging: cfg.system.fastifyLogger ? false : true,
     });
-    if (cfg.system.debug) {
-      this.fastify.addHook("preHandler", (request, reply, done) => {
-        console.log("Hit preHandler");
-        console.log(
-          `[${new Date().toLocaleString("id-ID", {
-            timeZone: "Asia/Jakarta",
-          })}] ${request.method} ${request.url}`
-        );
-        done();
-      });
-    }
+    // if (cfg.system.debug) {
+    //   this.fastify.addHook("preHandler", (request, reply, done) => {
+    //     console.log("Hit preHandler");
+    //     console.log(
+    //       `[${new Date().toLocaleString("id-ID", {
+    //         timeZone: "Asia/Jakarta",
+    //       })}] ${request.method} ${request.url}`
+    //     );
+    //     done();
+    //   });
+    // }
   }
 
   async registerPlugins() {
@@ -56,14 +56,6 @@ export class App {
         dir: join(__dirname, "plugins"),
         options: { prefix: "middleware" },
       });
-      // await this.fastify.register(rateLimit, {
-      //   max: cfg.security.rateLimiter.limit,
-      //   timeWindow: cfg.security.rateLimiter.per,
-      //   cache: cfg.security.rateLimiter.cache,
-      //   whitelist: cfg.security.whitelist,
-      //   skipOnError: false,
-      //   addHeaders: cfg.security.rateLimiter.headers,
-      // });
     } catch (err) {
       Utils.logs("error", `Error: ${err}`, "app.js");
     }
