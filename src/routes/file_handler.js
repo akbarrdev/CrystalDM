@@ -3,12 +3,13 @@ import { Utils } from "../library/utils.js";
 import fs from "fs";
 import path from "path";
 import mime from "mime-types";
+import process from "process";
 
 export default async function fileHandler(fastify, options) {
+  const startTime = process.hrtime();
   fastify.get("/cache/*", async (request, reply) => {
     try {
       const requestedPath = request.params["*"];
-      // const fullPath = path.join(__dirname, "..", "..", "cache", requestedPath);
       const fullPath = path.join(
         "D:",
         "Project Pemrograman",
@@ -18,12 +19,10 @@ export default async function fileHandler(fastify, options) {
         "cache",
         requestedPath
       );
-      console.log("Requested Path: ", requestedPath);
-      console.log("Full Path: ", fullPath);
-      
+
       if (!fs.existsSync(fullPath)) {
-        Utils.logs("error", "404: File tidak ditemukan!", fullPath);
-        return reply.code(404).send(`File tidak ditemukan: ${requestedPath}`);
+        Utils.logs("error", "404: File not found!", fullPath);
+        return reply.code(404).send(`File not found: ${requestedPath}`);
       }
 
       const fileContent = fs.readFileSync(fullPath);
@@ -33,11 +32,13 @@ export default async function fileHandler(fastify, options) {
         "Content-Disposition",
         `attachment; filename="${requestedPath.split("/").pop()}"`
       );
+      const [seconds, nanoseconds] = process.hrtime(startTime);
+      const elapsedTime = seconds + nanoseconds / 1e9;
       Utils.logs(
         "growtopia",
-        `Berhasil menyajikan file!`,
+        `Success serving file`,
         requestedPath,
-        reply.elapsedTime
+        elapsedTime.toFixed(4)
       );
       return reply.send(fileContent);
     } catch (err) {

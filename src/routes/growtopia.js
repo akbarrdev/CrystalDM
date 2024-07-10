@@ -69,11 +69,7 @@ async function validateRequest(request, reply) {
   }
 
   if (!isValidRequest(request)) {
-    Utils.logs(
-      "warn",
-      `Invalid request from IP: ${clientIp}`,
-      request.url
-    );
+    Utils.logs("warn", `Invalid request from IP: ${clientIp}`, request.url);
     reply.code(403).send("ngapain?");
     return false;
   }
@@ -94,6 +90,7 @@ RTENDMARKERBS1001`;
 }
 
 export default async function (fastify, options) {
+  const startTime = process.hrtime();
   fastify.post("/growtopia/server_data.php", async (request, reply) => {
     try {
       const isValid = await validateRequest(request, reply);
@@ -105,14 +102,16 @@ export default async function (fastify, options) {
       const clientIp = request.ip;
       const deviceType =
         request.headers["accept"] == "*/*" && request.httpVersion == "1.0"
-          ? "Android player"
+          ? "Mobile player"
           : "PC player";
 
+      const [seconds, nanoseconds] = process.hrtime(startTime);
+      const elapsedTime = seconds + nanoseconds / 1e9;
       Utils.logs(
         "growtopia",
         `${clientIp} (${deviceType})`,
         request.url,
-        reply.elapsedTime.toFixed(4)
+        elapsedTime.toFixed(4)
       );
 
       const gtpsdata = gtpsData(cfg.server.host, cfg.server.udpPort);
@@ -123,4 +122,3 @@ export default async function (fastify, options) {
     }
   });
 }
-
