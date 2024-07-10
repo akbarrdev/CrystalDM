@@ -2,8 +2,9 @@ import fs from "fs";
 import cfg from "../../config.json" assert { type: "json" };
 import { Utils } from "../library/utils.js";
 import { resolve } from "path";
+import fastifyPlugin from "fastify-plugin";
 
-export default async function (fastify, options) {
+export default fastifyPlugin(async function (fastify, options) {
   if (cfg.security.autoBlacklist.enabled) {
     let blacklist = [];
     try {
@@ -46,7 +47,7 @@ export default async function (fastify, options) {
   } else {
     Utils.logs("info", "Auto Blacklist is disabled.", "Auto Blacklist Plugin");
   }
-}
+});
 
 function isSuspiciousRequest(req) {
   // if (req.raw.method == "POST" && req.url == "/admin") return false;

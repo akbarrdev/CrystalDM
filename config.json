@@ -24,18 +24,14 @@
     },
     "security": {
         "autoBlacklist": {
-            "enabled": false,
+            "enabled": true,
             "blacklistPath": "blacklisted.json"
         },
-        "whitelist": [
-            "127.0.0.1",
-            "localhost"
-        ],
+        "whitelist": [],
         "geo": {
-            "enabled": false,
+            "enabled": true,
             "mode": "whitelist",
             "whitelistCountry": [
-                "ID",
                 "MY",
                 "PH"
             ],
@@ -54,7 +50,7 @@
             "/growtopia"
         ],
         "underAttack": {
-            "enabled": false,
+            "enabled": true,
             "discord-webhook-report-channel": "YOUR_WEBHOOK",
             "settings": {
                 "maxEventLoopDelay": 1000,
@@ -66,7 +62,7 @@
             }
         },
         "rateLimiter": {
-            "enabled": false,
+            "enabled": true,
             "limit": 10,
             "per": "1 minute",
             "cache": 10000,
@@ -79,16 +75,11 @@
             }
         },
         "payloadChecker": {
-            "enabled": false
-        },
-        "ipReputation": {
-            "enabled": false,
-            "apikey": "YOUR_API_KEY",
-            "threshold": 50
+            "enabled": true
         },
         "adaptiveRateLimit": {
-            "enabled": false,
-            "defaultLimit": 100,
+            "enabled": true,
+            "defaultLimit": 30,
             "minInterval": 1000,
             "cleanupInterval": 600000
         }

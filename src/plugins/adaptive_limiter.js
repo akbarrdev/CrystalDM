@@ -1,5 +1,6 @@
 import { Utils } from "../library/utils.js";
 import cfg from "../../config.json" assert { type: "json" };
+import fastifyPlugin from "fastify-plugin";
 
 const clientStats = new Map();
 
@@ -36,7 +37,7 @@ function getAdaptiveLimit(clientIp) {
   return baseLimit;
 }
 
-export default async function (fastify, options) {
+export default fastifyPlugin(async function (fastify, options) {
   if (cfg.security.adaptiveRateLimit.enabled) {
     fastify.addHook("onRequest", async (request, reply) => {
       const clientIp = request.ip;
@@ -78,4 +79,4 @@ export default async function (fastify, options) {
       "Adaptive Rate Limiter Plugin"
     );
   }
-}
+});

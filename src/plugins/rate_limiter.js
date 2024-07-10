@@ -1,8 +1,9 @@
 import cfg from "../../config.json" assert { type: "json" };
+import fp from "fastify-plugin";
 import rateLimit from "@fastify/rate-limit";
 import { Utils } from "../library/utils.js";
 
-export default async function (fastify, options) {
+export default fp(async function rateLimiter(fastify, options) {
   if (cfg.security.rateLimiter.enabled) {
     try {
       await fastify.register(rateLimit, {
@@ -25,4 +26,4 @@ export default async function (fastify, options) {
   } else {
     Utils.logs("info", "Rate Limiter is disabled.", "Rate Limiter Plugin");
   }
-}
+});

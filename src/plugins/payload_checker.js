@@ -1,3 +1,4 @@
+import fastifyPlugin from "fastify-plugin";
 import cfg from "../../config.json" assert { type: "json" };
 import { Utils } from "../library/utils.js";
 
@@ -14,7 +15,7 @@ const checkPayload = (payload) => {
   return suspiciousPatterns.some((pattern) => pattern.test(payload));
 };
 
-export default async function (fastify, options) {
+export default fastifyPlugin(async function (fastify, options) {
   if (cfg.security.payloadChecker.enabled) {
     try {
       fastify.addHook("preHandler", async (request, reply) => {
@@ -77,4 +78,4 @@ export default async function (fastify, options) {
       "Payload Checker Plugin"
     );
   }
-}
+})

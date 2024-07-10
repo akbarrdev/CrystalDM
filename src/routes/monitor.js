@@ -3,10 +3,7 @@ import fastifyStatic from "@fastify/static";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import os from "os";
-// import { exec } from "child_process";
-// import { promisify } from "util";
 
-// const execPromise = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 

@@ -7,6 +7,7 @@ import cfg from "../config.json" assert { type: "json" };
 import { Utils } from "./library/utils.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import rateLimit from "@fastify/rate-limit";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,7 +18,7 @@ export class App {
     this.udpPort = udpPort;
     this.fastify = fastify({
       logger: cfg.system.fastifyLogger,
-      // trustProxy: true,
+      trustProxy: true,
       http2: true,
       https: cfg.server.https.enabled
         ? {
@@ -36,7 +37,8 @@ export class App {
       // disableRequestLogging: cfg.system.fastifyLogger ? false : true,
     });
     if (cfg.system.debug) {
-      this.fastify.addHook("onRequest", (request, reply, done) => {
+      this.fastify.addHook("preHandler", (request, reply, done) => {
+        console.log("Hit preHandler");
         console.log(
           `[${new Date().toLocaleString("id-ID", {
             timeZone: "Asia/Jakarta",
@@ -52,8 +54,16 @@ export class App {
       await this.fastify.register(httpsRedirect);
       await this.fastify.register(autoload, {
         dir: join(__dirname, "plugins"),
-        options: { prefix: "plugins" },
+        options: { prefix: "middleware" },
       });
+      // await this.fastify.register(rateLimit, {
+      //   max: cfg.security.rateLimiter.limit,
+      //   timeWindow: cfg.security.rateLimiter.per,
+      //   cache: cfg.security.rateLimiter.cache,
+      //   whitelist: cfg.security.whitelist,
+      //   skipOnError: false,
+      //   addHeaders: cfg.security.rateLimiter.headers,
+      // });
     } catch (err) {
       Utils.logs("error", `Error: ${err}`, "app.js");
     }
@@ -76,8 +86,8 @@ export class App {
         "system",
         `Crystal DDoS Mitigation\nBy Akbarrdev\n\nRuning on port ${this.tcpPort}`
       );
-      await this.registerRoutes();
       await this.registerPlugins();
+      await this.registerRoutes();
       await this.fastify.listen({ port: this.tcpPort });
     } catch (err) {
       Utils.logs("error", err, "app.js");
