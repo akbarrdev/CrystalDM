@@ -59,12 +59,11 @@ function isValidRequest(request) {
 async function validateRequest(request, reply) {
   const clientIp = request.ip;
   const isCloudflare = await isCloudflareIP(clientIp);
-  console.log(request);
   if (isCloudflare) {
     Utils.logs(
-      "info",
+      "growtopia",
       `Request from Cloudflare IP: ${clientIp}`,
-      "Growtopia Route"
+      request.url
     );
     return true;
   }
@@ -73,9 +72,9 @@ async function validateRequest(request, reply) {
     Utils.logs(
       "warn",
       `Invalid request from IP: ${clientIp}`,
-      "Growtopia Route"
+      request.url
     );
-    reply.code(403).send("Forbidden");
+    reply.code(403).send("ngapain?");
     return false;
   }
 
@@ -104,14 +103,14 @@ export default async function (fastify, options) {
       }
 
       const clientIp = request.ip;
-      const playerType =
+      const deviceType =
         request.headers["accept"] == "*/*" && request.httpVersion == "1.0"
           ? "Android player"
           : "PC player";
 
       Utils.logs(
         "growtopia",
-        `${clientIp} (${playerType})`,
+        `${clientIp} (${deviceType})`,
         request.url,
         reply.elapsedTime.toFixed(4)
       );
@@ -124,3 +123,4 @@ export default async function (fastify, options) {
     }
   });
 }
+
