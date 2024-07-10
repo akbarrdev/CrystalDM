@@ -2,6 +2,9 @@ import { Utils } from "../library/utils.js";
 import cfg from "../../config.json" assert { type: "json" };
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
+import { promisify } from "util";
+import dns from "dns";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,61 +30,65 @@ const blockedUserAgent = [
   "HttpClient",
   "okhttp",
 ];
+const lookupAsync = promisify(dns.lookup);
 
-export default async function (fastify, options) {
-  fastify.addHook("preHandler", (request, reply, done) => {
-    console.log(
-      `[${new Date().toLocaleString("id-ID", {
-        timeZone: "Asia/Jakarta",
-      })}] ${request.method} ${request.url}`
+async function isCloudflareIP(ip) {
+  try {
+    const result = await lookupAsync(ip);
+    return result.includes("cloudflare");
+  } catch (err) {
+    return false;
+  }
+}
+
+function isValidRequest(request) {
+  const userAgent = request.headers["user-agent"] || "";
+  const accept = request.headers["accept"] || "";
+  const connection = request.headers["connection"] || "";
+  const httpVersion = request.httpVersion;
+
+  if (
+    blockedUserAgent.some((agent) =>
+      userAgent.toLowerCase().includes(agent.toLowerCase())
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    (accept === "*/*" && connection === "close") ||
+    (accept === "*/*" && httpVersion === "1.0")
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+async function validateRequest(request, reply) {
+  const clientIp = request.ip;
+  const isCloudflare = await isCloudflareIP(clientIp);
+
+  if (isCloudflare) {
+    Utils.logs(
+      "info",
+      `Request from Cloudflare IP: ${clientIp}`,
+      "Growtopia Route"
     );
-    done();
-  });
-  // fastify.post("/growtopia/server_data.php", async (request, reply) => {
-  //   try {
-  //     console.log("hit")
-  //     const fullURL = request.protocol + "://" + request.hostname + request.url;
-  //     console.log(fullURL);
-  //     const userAgent = request.headers["user-agent"] || "";
+    return true;
+  }
 
-  // if (
-  //   blockedUserAgent.some((agent) =>
-  //     userAgent.toLowerCase().includes(agent.toLowerCase())
-  //   )
-  // ) {
-  //   Utils.logs(
-  //     "warn",
-  //     request.ip,
-  //     "Blocked User Agent: " + userAgent,
-  //     fullURL,
-  //     0
-  //   );
-  //   return reply.code(403).send("ngapain?");
-  // }
-  // if (
-  //   (request.headers["accept"] == "*/*" &&
-  //     request.headers["connection"] == "close") ||
-  //   (request.headers["accept"] == "*/*" && request.httpVersion == "1.0")
-  // ) {
-  //   Utils.logs(
-  //     "growtopia",
-  //     request.ip +
-  //       ` (${
-  //         request.headers["accept"] == "*/*" && request.httpVersion == "1.0"
-  //           ? "Android player"
-  //           : "PC player"
-  //       })`,
-  //     fullURL,
-  //     reply.elapsedTime.toFixed(4)
-  //   );
-  //   const gtpsdata = gtpsData(cfg.server.host, cfg.server.udpPort);
-  // console.log(gtpsdata);
-  // return reply.code(200).send(gtpsdata);
-  // }
-  //   } catch (err) {
-  //     Utils.logs("error", err, "growtopia.js", 0);
-  //   }
-  // });
+  if (!isValidRequest(request)) {
+    Utils.logs(
+      "warn",
+      `Invalid request from IP: ${clientIp}`,
+      "Growtopia Route"
+    );
+    reply.code(403).send("Forbidden");
+    return false;
+  }
+
+  return true;
 }
 
 function gtpsData(IP, udpPort, maintText = "") {
@@ -94,4 +101,36 @@ beta_port|${udpPort}
 beta_type|1
 meta|akk.bar
 RTENDMARKERBS1001`;
+}
+
+export default async function (fastify, options) {
+  fastify.post("/growtopia/server_data.php", async (request, reply) => {
+    try {
+      const fullURL = request.protocol + "://" + request.hostname + request.url;
+      const isValid = await validateRequest(request, reply);
+
+      if (!isValid) {
+        return;
+      }
+
+      const clientIp = request.ip;
+      const playerType =
+        request.headers["accept"] == "*/*" && request.httpVersion == "1.0"
+          ? "Android player"
+          : "PC player";
+
+      Utils.logs(
+        "growtopia",
+        `${clientIp} (${playerType})`,
+        fullURL,
+        reply.elapsedTime.toFixed(4)
+      );
+
+      const gtpsdata = gtpsData(cfg.server.host, cfg.server.udpPort);
+      reply.code(200).send(gtpsdata);
+    } catch (err) {
+      Utils.logs("error", err, "growtopia.js", 0);
+      reply.code(500).send("Internal Server Error");
+    }
+  });
 }

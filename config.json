@@ -5,7 +5,11 @@
             "port": 6379
         },
         "fastifyLogger": false,
-        "debug": true
+        "debug": true,
+        "loadBalancer": {
+            "enabled": true,
+            "mode": "round-robin"
+        }
     },
     "server": {
         "tcpPort": 443,
