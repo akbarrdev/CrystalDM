@@ -7,7 +7,7 @@
         "fastifyLogger": false,
         "debug": true,
         "loadBalancer": {
-            "enabled": true,
+            "enabled": false,
             "mode": "round-robin"
         }
     },

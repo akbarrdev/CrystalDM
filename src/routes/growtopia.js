@@ -44,21 +44,12 @@ async function isCloudflareIP(ip) {
 function isValidRequest(request) {
   const userAgent = request.headers["user-agent"] || "";
   const accept = request.headers["accept"] || "";
-  const connection = request.headers["connection"] || "";
-  const httpVersion = request.httpVersion;
 
-  if (
-    blockedUserAgent.some((agent) =>
-      userAgent.toLowerCase().includes(agent.toLowerCase())
-    )
-  ) {
+  if (!userAgent.includes("UbiServices_SDK")) {
     return false;
   }
 
-  if (
-    (accept === "*/*" && connection === "close") ||
-    (accept === "*/*" && httpVersion === "1.0")
-  ) {
+  if (accept === "*/*") {
     return true;
   }
 
@@ -68,7 +59,7 @@ function isValidRequest(request) {
 async function validateRequest(request, reply) {
   const clientIp = request.ip;
   const isCloudflare = await isCloudflareIP(clientIp);
-
+  console.log(request);
   if (isCloudflare) {
     Utils.logs(
       "info",
@@ -106,7 +97,6 @@ RTENDMARKERBS1001`;
 export default async function (fastify, options) {
   fastify.post("/growtopia/server_data.php", async (request, reply) => {
     try {
-      const fullURL = request.protocol + "://" + request.hostname + request.url;
       const isValid = await validateRequest(request, reply);
 
       if (!isValid) {
@@ -122,7 +112,7 @@ export default async function (fastify, options) {
       Utils.logs(
         "growtopia",
         `${clientIp} (${playerType})`,
-        fullURL,
+        request.url,
         reply.elapsedTime.toFixed(4)
       );
 
