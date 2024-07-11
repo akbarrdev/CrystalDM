@@ -29,7 +29,7 @@ CrystalDM is an advanced DDoS Mitigation System specifically designed for Growto
 
 1. Clone the repository:
 ```
-git clone https://github.com/akbarrdev/CrystalDM.git
+git clone https://github.com/akbarrdev/CrystalDM.git ./
 ```
 2. Install the required dependencies:
 ```
