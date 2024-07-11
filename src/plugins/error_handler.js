@@ -26,7 +26,7 @@ export default fastifyPlugin(async function (fastify, options) {
     fastify.addHook("onError", (request, reply, error, done) => {
       Utils.logs(
         "error",
-        `An error occurred: ${error.message}`,
+        `${error}`,
         "Error Handler Plugin"
       );
       console.log(error);

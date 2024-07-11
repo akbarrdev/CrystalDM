@@ -1,9 +1,6 @@
 {
     "system": {
-        "redis": {
-            "host": "localhost",
-            "port": 6379
-        },
+        "discord-webhook-report-channel": "YOUR_WEBHOOK",
         "fastifyLogger": false,
         "debug": true,
         "loadBalancer": {
@@ -31,7 +28,10 @@
             "enabled": true,
             "blacklistPath": "blacklisted.json"
         },
-        "whitelist": [],
+        "whitelist": [
+            "127.0.0.1",
+            "::1"
+        ],
         "geo": {
             "enabled": true,
             "mode": "whitelist",
@@ -54,7 +54,6 @@
         ],
         "underAttack": {
             "enabled": true,
-            "discord-webhook-report-channel": "YOUR_WEBHOOK",
             "settings": {
                 "maxEventLoopDelay": 1000,
                 "maxHeapUsedBytes": 300000000,

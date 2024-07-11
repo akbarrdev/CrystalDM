@@ -18,7 +18,7 @@ export default fastifyPlugin(async function (fastify, options) {
       const clientIp = request.ip;
 
       try {
-        const geoResponse = clientIp === '127.0.0.1' ? null : geoipReader.country(clientIp);
+        const geoResponse = clientIp === '127.0.0.1' || clientIp === '::1' ? null : geoipReader.country(clientIp);
         if (!geoResponse) return;
         const country = geoResponse.country.isoCode;
         if (
@@ -51,19 +51,6 @@ export default fastifyPlugin(async function (fastify, options) {
         );
       }
 
-      // fastify.get("/check-location", async (request, reply) => {
-      //   const ip = request.ip;
-      //   try {
-      //     const response = geoipReader.country(ip);
-      //     return {
-      //       ip: ip,
-      //       country: response.country.isoCode,
-      //       countryName: response.country.names.en,
-      //     };
-      //   } catch (error) {
-      //     reply.code(500).send(`Unable to resolve location: ${error.message}`);
-      //   }
-      // });
     });
     Utils.logs(
       "info",

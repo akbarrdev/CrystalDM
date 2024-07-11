@@ -2,6 +2,9 @@ import chalk from "chalk";
 import boxen from "boxen";
 import figures from "figures";
 import moment from "moment";
+import os from "os";
+import fetch from "node-fetch";
+import cfg from "../../config.json" assert { type: "json" };
 
 export class Utils {
   static logs(type, message, pathORFilename, latency) {
@@ -106,4 +109,83 @@ export class Utils {
       console.log(err);
     }
   }
+
+  static async getPublicIP() {
+    try {
+      const response = await fetch("https://api.ipify.org?format=json");
+      const data = await response.json();
+      return data.ip;
+    } catch (error) {
+      console.error("Gagal mendapatkan IP publik:", error);
+      return "IP not found";
+    }
+  }
+  static async sendDiscord(type, data) {
+    let payload;
+    if (type === "underAttack") {
+      const publicIP = await this.getPublicIP();
+      payload = embed(
+        "SERVER IS UNDER ATTACK",
+        `Your server (${cfg.server.information.name}) is under attack by:
+        - **${data.attackerIP}**\n\n\nThe attacker IP has been **auto-blacklisted** and your server is safe under CrystalDM Protection.`,
+        [
+          {
+            name: "Check server monitor",
+            value: `[Click here](https://${publicIP}/monitor)`,
+            inline: true,
+          },
+        ]
+      );
+    } else if (type === "overload") {
+      const publicIP = await this.getPublicIP();
+      payload = embed(
+        "SERVER IS OVERLOADED",
+        `Your server (${cfg.server.information.name}) is overloaded\nLatest client is:
+        - **${data.client}**
+        
+        Overloaded type: ${data.type} (${data.value})\n\n\nThis is probably just an oversight and coincidence, the client will not be blacklisted.`,
+        [
+          {
+            name: "Check server monitor",
+            value: `[Click here](https://${publicIP}/monitor)`,
+            inline: true,
+          },
+        ]
+      );
+    }
+    const payloads = {
+      content: "",
+      embeds: [payload],
+    };
+    try {
+      await fetch(cfg.system["discord-webhook-report-channel"], {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payloads),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
+
+const embed = (title, description, fields = []) => {
+  return {
+    author: {
+      name: "CrystalDM Notification",
+      url: "https://github.com/akbarrdev/CrystalDM",
+    },
+    title: title,
+    url: "https://github.com/akbarrdev/CrystalDM",
+    description: description,
+    fields: fields,
+    color: 447744,
+    footer: {
+      text: "CrystalDM by Akbarrdev",
+      icon_url: "https://slate.dan.onl/slate.png",
+    },
+    timestamp: new Date().toISOString(),
+  };
+};

@@ -36,17 +36,6 @@ export class App {
       ignoreDuplicateSlashes: true,
       disableRequestLogging: cfg.system.fastifyLogger ? false : true,
     });
-    // if (cfg.system.debug) {
-    //   this.fastify.addHook("preHandler", (request, reply, done) => {
-    //     console.log("Hit preHandler");
-    //     console.log(
-    //       `[${new Date().toLocaleString("id-ID", {
-    //         timeZone: "Asia/Jakarta",
-    //       })}] ${request.method} ${request.url}`
-    //     );
-    //     done();
-    //   });
-    // }
   }
 
   async registerPlugins() {
@@ -74,13 +63,19 @@ export class App {
 
   async start() {
     try {
-      Utils.logs(
-        "system",
-        `Crystal DDoS Mitigation\nBy Akbarrdev\n\nRuning on port ${this.tcpPort}`
-      );
       await this.registerPlugins();
       await this.registerRoutes();
-      await this.fastify.listen({ port: this.tcpPort });
+      this.fastify.listen({ port: this.tcpPort }, (err, address) => {
+        if (err) {
+          Utils.logs("error", `Error: ${err}`, "app.js");
+          process.exit(1);
+        }
+        console.log("\n")
+        Utils.logs(
+          "system",
+          `Crystal DDoS Mitigation\nBy Akbarrdev\n\nRuning on ${address}`
+        );
+      });
     } catch (err) {
       Utils.logs("error", err, "app.js");
       process.exit(1);

@@ -1,6 +1,8 @@
 import { Utils } from "../library/utils.js";
 import cfg from "../../config.json" assert { type: "json" };
 import fastifyPlugin from "fastify-plugin";
+import { resolve } from "path";
+import fs from "fs";
 
 const clientStats = new Map();
 
@@ -41,17 +43,32 @@ export default fastifyPlugin(async function (fastify, options) {
   if (cfg.security.adaptiveRateLimit.enabled) {
     fastify.addHook("onRequest", async (request, reply) => {
       const clientIp = request.ip;
+      if (cfg.security.whitelist.includes(clientIp)) {
+        return;
+      }
       const requestTime = Date.now();
+      const blacklistPath = resolve(cfg.security.autoBlacklist.blacklistPath);
+      const blacklistData = fs.readFileSync(blacklistPath, "utf-8");
+      const blacklist = JSON.parse(blacklistData);
 
       updateClientStats(clientIp, requestTime);
       const limit = getAdaptiveLimit(clientIp);
 
       if (clientStats.get(clientIp).count > limit) {
-        Utils.logs(
-          "warn",
-          `Adaptive rate limit exceeded for IP: ${clientIp}`,
-          "Adaptive Rate Limiter Plugin"
-        );
+        if (!blacklist.includes(clientIp)) {
+          Utils.logs(
+            "warn",
+            `Adaptive rate limit exceeded for IP: ${clientIp}, auto blacklist...`,
+            "Adaptive Rate Limiter Plugin"
+          );
+          await Utils.sendDiscord("underAttack", { attackerIP: clientIp });
+          blacklist.push(clientIp);
+          try {
+            fs.writeFileSync(blacklistPath, JSON.stringify(blacklist, null, 2));
+          } catch (err) {
+            Utils.logs("error", err, "Auto Blacklist Plugins", 0);
+          }
+        }
         reply.code(429).send("Too Many Requests");
       }
     });

@@ -18,7 +18,7 @@ const checkPayload = (payload) => {
 export default fastifyPlugin(async function (fastify, options) {
   if (cfg.security.payloadChecker.enabled) {
     try {
-      fastify.addHook("preHandler", async (request, reply) => {
+      fastify.addHook("onRequest", async (request, reply) => {
         const clientIp = request.ip;
 
         if (checkPayload(request.url)) {

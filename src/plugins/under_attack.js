@@ -10,6 +10,7 @@ export default fastifyPlugin(async function (fastify, options) {
         ...cfg.security.underAttack.settings,
         pressureHandler: (req, rep, type, value) => {
           console.log(`Server under pressure: ${type} ${value}`);
+          Utils.sendDiscord("overload", {client: req.ip, type: type, value: value});
           rep.send(cfg.security.underAttack.settings.message);
         },
       });

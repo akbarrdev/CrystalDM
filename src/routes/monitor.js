@@ -47,26 +47,20 @@ function getCpuUsage() {
 }
 
 export default async function (fastify, options) {
-  let openConnections = 0;
+  const startTime = process.hrtime();
   try {
-    fastify.addHook("onRequest", (request, reply, done) => {
-      openConnections++;
-      done();
-    });
-
-    fastify.addHook("onResponse", (request, reply, done) => {
-      openConnections--;
-      done();
-    });
     await fastify.register(fastifyStatic, {
       root: join(__dirname, "../public"),
       prefix: "/monitor",
     });
 
+    const [seconds, nanoseconds] = process.hrtime(startTime);
+    const elapsedTime = seconds + nanoseconds / 1e9;
+
     fastify.get("/monitor", async (request, reply) => {
       const requesterIP = request.ip;
       const fullURL = request.protocol + "://" + request.hostname + request.url;
-      Utils.logs("GET", requesterIP, fullURL, reply.elapsedTime.toFixed(4));
+      Utils.logs("GET", requesterIP, fullURL, elapsedTime.toFixed(4));
       return reply.sendFile("monitor.html");
     });
 
@@ -74,14 +68,11 @@ export default async function (fastify, options) {
       const cpuUsage = getCpuUsage();
       const memoryUsage = process.memoryUsage().rss;
       const uptime = os.uptime();
-      const activeProcesses = 5;
 
       return {
         cpuUsage,
         memoryUsage,
-        openConnections,
         uptime,
-        activeProcesses,
       };
     });
   } catch (err) {
