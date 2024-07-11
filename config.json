@@ -11,7 +11,7 @@
     "server": {
         "tcpPort": 443,
         "udpPort": 888,
-        "loginURL": "tron-login.zapto.org:444",
+        "loginURL": "LOGIN_URL",
         "host": "127.0.0.1",
         "https": {
             "enabled": true,
