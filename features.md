@@ -97,27 +97,27 @@ Simple JSON-based configuration file for easy setup and customization.
 ## Feature Showcase
 
 ### Main Program Interface
-![Main Interface](path/to/main_interface_image.png)
+![Main Interface](assets/main.png)
 *The main interface of CrystalDM, showing real-time server statistics and security status.*
 
 ### GTPS Cache File Serving
-![Cache Serving](path/to/cache_serving_image.png)
+![Cache Serving](assets/gtps_file.png)
 *CrystalDM efficiently serving GTPS cache files to clients, ensuring smooth gameplay.*
 
 ### Detailed 404 Error Logging
-![404 Error Log](path/to/404_error_log_image.png)
+![404 Error Log](assets/error_404.png)
 *Comprehensive logging of 404 errors, providing valuable information for debugging and optimization.*
 
 ### Auto-Blacklisting DDoS Attacker
-![Auto Blacklist](path/to/auto_blacklist_image.png)
+![Auto Blacklist](assets/auto_banned.png)
 *CrystalDM automatically detecting and blacklisting an IP address involved in a DDoS attack.*
 
 ### Blacklisted IP Attempt
-![Blacklisted Access Attempt](path/to/blacklisted_attempt_image.png)
+![Blacklisted Access Attempt](assets/attacker_view.png)
 *The response when a blacklisted IP attempts to access the web interface.*
 
 ### Discord Webhook Alert
-![Discord Alert](path/to/discord_alert_image.png)
+![Discord Alert](assets/webhook.png)
 *An automatic alert sent to Discord, notifying admins of an ongoing attack.*
 
 These features work in concert to provide a robust, efficient, and user-friendly DDoS mitigation solution for GTPS. CrystalDM's modular design allows for easy updates and additions of new features in the future.
