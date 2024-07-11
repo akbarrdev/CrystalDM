@@ -121,3 +121,13 @@ Simple JSON-based configuration file for easy setup and customization.
 *An automatic alert sent to Discord, notifying admins of an ongoing attack.*
 
 These features work in concert to provide a robust, efficient, and user-friendly DDoS mitigation solution for GTPS. CrystalDM's modular design allows for easy updates and additions of new features in the future.
+
+## Community
+
+Join our community to get support, share experiences, and stay updated on the latest developments:
+
+[![Join our Discord](https://img.shields.io/badge/Join%20our-Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/2M2TA5TPau)
+
+[![Join our WhatsApp Channel](https://img.shields.io/badge/Join%20our-WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029VaZAopA8fewhXJvqxt18)
+
+Stay connected with the CrystalDM community and get real-time updates, support, and engage with other users!

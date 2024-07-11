@@ -77,10 +77,13 @@ async function validateRequest(request, reply) {
   return true;
 }
 
-function gtpsData(IP, udpPort, maintText = "") {
+function gtpsData(IP, udpPort, loginURL, maintText = "") {
   return `server|${IP}
+error|1000|Update is now available for your device.  Go get it!  You'll need to install it before you can play online.
+url|market://details?id=com.rtsoft.growtopia
 port|${udpPort}
 type|1
+loginurl|${loginURL}
 ${maintText == "" ? `#maint|${maintText}` : `maint|${maintText}`}
 beta_server|127.0.0.1
 beta_port|${udpPort}
@@ -114,7 +117,7 @@ export default async function (fastify, options) {
         elapsedTime.toFixed(4)
       );
 
-      const gtpsdata = gtpsData(cfg.server.host, cfg.server.udpPort);
+      const gtpsdata = gtpsData(cfg.server.host, cfg.server.udpPort, cfg.server.loginURL);
       reply.code(200).send(gtpsdata);
     } catch (err) {
       Utils.logs("error", err, "growtopia.js", 0);

@@ -68,14 +68,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Author
 
-Akbarrdev
+## Community
 
-## Links
+Join our community to get support, share experiences, and stay updated on the latest developments:
 
-- GitHub Repository: [https://github.com/akbarrdev/CrystalDM](https://github.com/akbarrdev/CrystalDM)
-- Documentation: [https://github.com/akbarrdev/CrystalDM/wiki](https://github.com/akbarrdev/CrystalDM/wiki)
+[![Join our Discord](https://img.shields.io/badge/Join%20our-Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/2M2TA5TPau)
+
+[![Join our WhatsApp Channel](https://img.shields.io/badge/Join%20our-WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029VaZAopA8fewhXJvqxt18)
+
+Stay connected with the CrystalDM community and get real-time updates, support, and engage with other users!
 
 ## Acknowledgments
 
