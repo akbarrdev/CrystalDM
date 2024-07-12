@@ -18,7 +18,7 @@ CrystalDM is an advanced DDoS Mitigation System specifically designed for Growto
 3. Geo Ban
 4. Auto Blacklist
 5. Rate Limiter
-6. Web Application Firewall (WAF)
+6. Hide Server Data
 7. IP Reputation Check
 8. Adaptive Rate Limiter
 9. Under Attack Mode
