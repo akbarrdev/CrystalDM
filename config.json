@@ -39,7 +39,8 @@
             "mode": "whitelist",
             "whitelistCountry": [
                 "MY",
-                "PH"
+                "PH",
+                "ID"
             ],
             "blacklistCountry": [
                 "NG",
