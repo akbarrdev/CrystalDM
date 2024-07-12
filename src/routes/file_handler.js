@@ -10,15 +10,7 @@ export default async function fileHandler(fastify, options) {
   fastify.get("/cache/*", async (request, reply) => {
     try {
       const requestedPath = request.params["*"];
-      const fullPath = path.join(
-        "D:",
-        "Project Pemrograman",
-        "GTPS",
-        "CentrumG3.5",
-        "TNL Advanced Protect",
-        "cache",
-        requestedPath
-      );
+      const fullPath = path.resolve(cfg.server.cachePath, requestedPath);
 
       if (!fs.existsSync(fullPath)) {
         Utils.logs("error", "404: File not found!", fullPath);

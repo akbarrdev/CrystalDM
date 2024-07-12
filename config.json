@@ -12,6 +12,7 @@
         "tcpPort": 443,
         "udpPort": 888,
         "loginURL": "https://api.akk.bar/",
+        "cachePath": "./cache",
         "host": "127.0.0.1",
         "https": {
             "enabled": true,
