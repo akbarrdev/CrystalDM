@@ -81,4 +81,4 @@ Stay connected with the CrystalDM community and get real-time updates, support, 
 
 ## Acknowledgments
 
-- Thanks to all contributors and users of CrystalDM
+- Thanks to [YoruAkio](https://github.com/YoruAkio) and users of CrystalDM

@@ -11,7 +11,7 @@
     "server": {
         "tcpPort": 443,
         "udpPort": 888,
-        "loginURL": "LOGIN_URL",
+        "loginURL": "https://api.akk.bar/",
         "host": "127.0.0.1",
         "https": {
             "enabled": true,
