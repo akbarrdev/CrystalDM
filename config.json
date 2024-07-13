@@ -11,7 +11,7 @@
     "server": {
         "tcpPort": 443,
         "udpPort": 888,
-        "loginURL": "https://api.akk.bar/",
+        "loginURL": "api.akk.bar",
         "cachePath": "./cache",
         "host": "127.0.0.1",
         "https": {
@@ -68,7 +68,7 @@
         },
         "rateLimiter": {
             "enabled": true,
-            "limit": 67,
+            "limit": 100,
             "per": "1 minute",
             "cache": 10000,
             "headers": {
@@ -84,7 +84,7 @@
         },
         "adaptiveRateLimit": {
             "enabled": true,
-            "defaultLimit": 67,
+            "defaultLimit": 110,
             "minInterval": 1000,
             "cleanupInterval": 600000
         }
