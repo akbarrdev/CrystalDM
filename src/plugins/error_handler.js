@@ -2,6 +2,8 @@ import cfg from "../../config.json" assert { type: "json" };
 import rateLimit from "@fastify/rate-limit";
 import { Utils } from "../library/utils.js";
 import fastifyPlugin from "fastify-plugin";
+import fs from "fs";
+import { resolve } from "path";
 
 const blacklistPath = resolve(cfg.security.autoBlacklist.blacklistPath);
 const blacklistData = fs.readFileSync(blacklistPath, "utf-8");
