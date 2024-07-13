@@ -67,7 +67,7 @@ export class App {
     try {
       await this.registerPlugins();
       await this.registerRoutes();
-      this.fastify.listen({ port: this.tcpPort }, (err, address) => {
+      this.fastify.listen({ port: this.tcpPort, host: "0.0.0.0" }, (err, address) => {
         if (err) {
           Utils.logs("error", `Error: ${err}`, "app.js");
           process.exit(1);

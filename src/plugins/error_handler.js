@@ -29,7 +29,7 @@ export default fastifyPlugin(async function (fastify, options) {
       }
     );
 
-    fastify.addHook("onError", async (request, reply, error, done) => {
+    fastify.addHook("onError", async (request, reply, error) => {
       if (error.statusCode === 429) {
         if (!blacklist.includes(request.ip)) {
           Utils.logs(
@@ -50,7 +50,6 @@ export default fastifyPlugin(async function (fastify, options) {
         Utils.logs("error", `${error}`, "Error Handler Plugin");
         console.log(error);
       }
-      done();
     });
 
     fastify.addHook("onTimeout", (request, reply, done) => {

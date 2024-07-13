@@ -26,7 +26,7 @@ export default fastifyPlugin(async function (fastify, options) {
           cfg.security.geo.blacklistCountry.includes(country) &&
           clientIp != "127.0.0.1" ||
           cfg.security.geo.mode == "whitelist" &&
-          cfg.security.geo.whitelistCountry.includes(country) &&
+          !cfg.security.geo.whitelistCountry.includes(country) &&
           clientIp != "127.0.0.1"
         ) {
           Utils.logs(
@@ -37,7 +37,7 @@ export default fastifyPlugin(async function (fastify, options) {
           reply.code(403).send({
             code: 403,
             message: "Access denied based on your geographic location",
-            ip: ip,
+            ip: clientIp,
             country: country,
             countryName: geoResponse.country.names.en,
           });

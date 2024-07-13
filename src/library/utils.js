@@ -166,7 +166,11 @@ export class Utils {
         body: JSON.stringify(payloads),
       });
     } catch (err) {
-      console.log(err);
+      if (err.message == "Invalid URL") {
+        console.log("Invalid webhook URL, please check your discord webhook url in config.json");
+      } else {
+        console.log(err);
+      }
     }
   }
 }

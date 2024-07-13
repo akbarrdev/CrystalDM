@@ -84,7 +84,7 @@
         },
         "adaptiveRateLimit": {
             "enabled": true,
-            "defaultLimit": 30,
+            "defaultLimit": 67,
             "minInterval": 1000,
             "cleanupInterval": 600000
         }
