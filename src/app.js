@@ -44,6 +44,7 @@ export class App {
       await this.fastify.register(autoload, {
         dir: join(__dirname, "plugins"),
         options: { prefix: "middleware" },
+        timeout: 30000,
       });
     } catch (err) {
       Utils.logs("error", `Error: ${err}`, "app.js");
@@ -55,6 +56,7 @@ export class App {
       await this.fastify.register(autoload, {
         dir: join(__dirname, "routes"),
         options: { prefix: "" },
+        timeout: 30000,
       });
     } catch (err) {
       Utils.logs("error", `Error: ${err}`);

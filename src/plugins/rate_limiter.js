@@ -14,6 +14,19 @@ export default fp(async function rateLimiter(fastify, options) {
         skipOnError: false,
         addHeaders: cfg.security.rateLimiter.headers,
       });
+      fastify.register(rateLimit, {
+        max: 60, 
+        timeWindow: '1 minute',
+        cache: 10000,
+        skipOnError: false,
+        addHeaders: cfg.security.rateLimiter.headers,
+      }, (instance) => {
+        instance.route({
+          url: '/api/server-stats',
+          method: 'GET'
+        });
+      });
+
       Utils.logs(
         "info",
         `Rate limiter is active (limit: ${cfg.security.rateLimiter.limit}, per: ${cfg.security.rateLimiter.per})`,

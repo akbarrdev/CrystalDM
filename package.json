@@ -19,6 +19,7 @@
     "@fastify/rate-limit": "^9.1.0",
     "@fastify/static": "^7.0.4",
     "@fastify/under-pressure": "^8.5.0",
+    "@fastify/websocket": "^10.0.1",
     "@maxmind/geoip2-node": "^5.0.0",
     "axios": "^1.7.2",
     "boxen": "^7.1.1",

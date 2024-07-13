@@ -7,6 +7,9 @@ import os from "os";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+let cachedStats = null;
+let lastUpdateTime = 0;
+const CACHE_TTL = 1000;
 let lastCpuInfo = os.cpus();
 let lastCpuTimes = lastCpuInfo.reduce(
   (acc, cpu) =>
@@ -14,16 +17,6 @@ let lastCpuTimes = lastCpuInfo.reduce(
   0
 );
 
-// async function getActiveProcesses() {
-// jangan dipake, makan memory
-//   try {
-//     const { stdout } = await execPromise("tasklist /FO CSV /NH");
-//     return stdout.trim().split("\n").length;
-//   } catch (error) {
-//     console.error("Error getting active processes:", error);
-//     return 0;
-//   }
-// }
 
 function getCpuUsage() {
   const cpuInfo = os.cpus();
@@ -46,6 +39,25 @@ function getCpuUsage() {
   return cpuUsage;
 }
 
+async function getServerStats() {
+  const now = Date.now();
+  if (cachedStats && now - lastUpdateTime < CACHE_TTL) {
+    return cachedStats;
+  }
+
+  const cpuUsage = getCpuUsage();
+  const memoryUsage = process.memoryUsage().rss;
+  const uptime = os.uptime();
+
+  cachedStats = {
+    cpuUsage,
+    memoryUsage,
+    uptime,
+  };
+  lastUpdateTime = now;
+  return cachedStats;
+}
+
 export default async function (fastify, options) {
   const startTime = process.hrtime();
   try {
@@ -65,15 +77,7 @@ export default async function (fastify, options) {
     });
 
     fastify.get("/api/server-stats", async (request, reply) => {
-      const cpuUsage = getCpuUsage();
-      const memoryUsage = process.memoryUsage().rss;
-      const uptime = os.uptime();
-
-      return {
-        cpuUsage,
-        memoryUsage,
-        uptime,
-      };
+      return await getServerStats();
     });
   } catch (err) {
     Utils.logs("error", err, "monitor.js", 0);

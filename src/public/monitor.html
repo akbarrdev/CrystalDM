@@ -4,119 +4,129 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Crystal DDoS Mitigation by Akbarrdev." />
-    <meta name="keywords" content="CrystalDM, Akbarrdev, TeamNevolution, GTPS, antiddos, growtopia, server monitor, server statistics, real-time monitoring, server performance" />
+    <meta
+      name="keywords"
+      content="CrystalDM, Akbarrdev, TeamNevolution, GTPS, antiddos, growtopia, server monitor, server statistics, real-time monitoring, server performance"
+    />
     <meta name="author" content="Akbarrdev" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="en" />
     <meta property="og:title" content="CrystalDM Server Monitor" />
-    <meta property="og:description" content="Crystal DDoS Mitigation by Akbarrdev." />
-    <meta property="og:image" content="https://api.akk.bar/crystaldm-logo.jpg" />
+    <meta
+      property="og:description"
+      content="Crystal DDoS Mitigation by Akbarrdev."
+    />
+    <meta
+      property="og:image"
+      content="https://api.akk.bar/crystaldm-logo.jpg"
+    />
     <meta property="og:url" content="https://api.akk.bar" />
     <link rel="canonical" href="https://api.akk.bar" />
     <title>CrystalDM Server Monitor | Real-time Monitoring</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
-  <style>
-    body {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-  line-height: 1.6;
-  color: #333;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: url("https://wallpapercave.com/download/cyberpunk-ipad-4k-wallpapers-wp9356057")
-    no-repeat center center fixed;
-  background-size: cover;
-}
 
-.container {
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 800px;
-  width: 90%;
-  margin: auto;
-}
-
-.watermark {
-    position: fixed;
-    bottom: 10px;
-    right: 28px;
-    font-size: 12px;
-    font-weight: 700;
-    color: #000;
-    /* text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); */
-    z-index: 1000;
-}
-
-h1 {
-  color: #000;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  font-size: 28px;
-}
-
-.metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.metric {
-  flex: 1 1 calc(50% - 10px);
-  min-width: 300px;
-  display: flex;
-  align-items: center;
-}
-
-.metric-info {
-  flex: 1;
-}
-
-.metric h3 {
-  margin: 0;
-  font-size: 16px;
-  color: #666;
-}
-
-.metric p {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 5px 0;
-}
-
-.metric small {
-  font-size: 14px;
-  color: #999;
-}
-
-.chart-container {
-    flex: 2;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-  }
-
-  .metric:last-child .chart-container {
-    justify-content: center;
-  }
-
-  .metric:last-child p {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-    text-align: center; 
-  }
-  </style>
-  </head>
   <body>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+          sans-serif;
+        line-height: 1.6;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: url("https://pai.sh/file/b036b1ec56b7e0be7183d.jpg")
+          no-repeat center center fixed;
+        background-size: cover;
+      }
+
+      .container {
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 800px;
+        width: 90%;
+        margin: auto;
+      }
+
+      .watermark {
+        position: fixed;
+        bottom: 10px;
+        right: 28px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #000;
+        /* text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); */
+        z-index: 1000;
+      }
+
+      h1 {
+        color: #000;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        font-size: 28px;
+      }
+
+      .metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .metric {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 300px;
+        display: flex;
+        align-items: center;
+      }
+
+      .metric-info {
+        flex: 1;
+      }
+
+      .metric h3 {
+        margin: 0;
+        font-size: 16px;
+        color: #666;
+      }
+
+      .metric p {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 5px 0;
+      }
+
+      .metric small {
+        font-size: 14px;
+        color: #999;
+      }
+
+      .chart-container {
+        flex: 2;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .metric:last-child .chart-container {
+        justify-content: center;
+      }
+
+      .metric:last-child p {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+        text-align: center;
+      }
+    </style>
     <div class="container">
       <h1>CrystalDM Server Monitor</h1>
       <div class="metrics">
@@ -155,7 +165,6 @@ h1 {
             <p id="uptime">Loading...</p>
           </div>
         </div>
-        
       </div>
 
       <div class="watermark">
@@ -164,132 +173,140 @@ h1 {
     </div>
     <script>
       const chartConfigs = {
-  cpu: { data: [], chart: null, color: "rgba(48, 209, 88, 0.5)" },
-  memory: { data: [], chart: null, color: "rgba(255, 204, 0, 0.5)" },
-  responseTime: { data: [], chart: null, color: "rgba(10, 132, 255, 0.5)" },
-  connections: { data: [], chart: null, color: "rgba(94, 92, 230, 0.5)" },
-};
-
-function createChart(ctx, label) {
-  return new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [
-        {
-          label: label,
+        cpu: { data: [], chart: null, color: "rgba(48, 209, 88, 0.5)" },
+        memory: { data: [], chart: null, color: "rgba(255, 204, 0, 0.5)" },
+        responseTime: {
           data: [],
-          backgroundColor: chartConfigs[label].color,
-          borderColor: chartConfigs[label].color,
-          fill: true,
-          tension: 0.4,
-          borderWidth: 1,
-          pointRadius: 0,
+          chart: null,
+          color: "rgba(10, 132, 255, 0.5)",
         },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { display: false },
-        y: {
-          display: false,
-          beginAtZero: true,
-          suggestedMax: label === "cpu" ? 100 : undefined,
-        },
-      },
-      animation: { duration: 0 },
-    },
-  });
-}
+        connections: { data: [], chart: null, color: "rgba(94, 92, 230, 0.5)" },
+      };
 
-function formatUptime(seconds) {
-  if (seconds < 60) {
-    return `${Math.floor(seconds)}s`;
-  } else if (seconds < 3600) {
-    const second = Math.floor(seconds % 60);
-    const minutes = Math.floor(seconds / 60);
-    return `${minutes}m ${second}s`;
-  } else if (seconds < 86400) {
-    const second = Math.floor(seconds % 60);
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}h ${minutes}m ${second}s`;
-  } else {
-    const days = Math.floor(seconds / (3600 * 24));
-    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    return `${days}h ${hours}j ${minutes}m`;
-  }
-}
+      function createChart(ctx, label) {
+        return new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                label: label,
+                data: [],
+                backgroundColor: chartConfigs[label].color,
+                borderColor: chartConfigs[label].color,
+                fill: true,
+                tension: 0.4,
+                borderWidth: 1,
+                pointRadius: 0,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { display: false },
+              y: {
+                display: false,
+                beginAtZero: true,
+                suggestedMax: label === "cpu" ? 100 : undefined,
+              },
+            },
+            animation: { duration: 0 },
+          },
+        });
+      }
 
-function updateChart(chart, newValue) {
-  const now = new Date();
-  chart.data.labels.push(now.toLocaleTimeString());
-  chart.data.datasets[0].data.push(newValue);
-  if (chart.data.labels.length > 60) {
-    chart.data.labels.shift();
-    chart.data.datasets[0].data.shift();
-  }
-  chart.update("none");
-}
+      function formatUptime(seconds) {
+        if (seconds < 60) {
+          return `${Math.floor(seconds)}s`;
+        } else if (seconds < 3600) {
+          const second = Math.floor(seconds % 60);
+          const minutes = Math.floor(seconds / 60);
+          return `${minutes}m ${second}s`;
+        } else if (seconds < 86400) {
+          const second = Math.floor(seconds % 60);
+          const hours = Math.floor(seconds / 3600);
+          const minutes = Math.floor((seconds % 3600) / 60);
+          return `${hours}h ${minutes}m ${second}s`;
+        } else {
+          const days = Math.floor(seconds / (3600 * 24));
+          const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+          const minutes = Math.floor((seconds % 3600) / 60);
+          return `${days}h ${hours}j ${minutes}m`;
+        }
+      }
 
-function initCharts() {
-  chartConfigs.cpu.chart = createChart(
-    document.getElementById("cpuChart").getContext("2d"),
-    "cpu"
-  );
-  chartConfigs.memory.chart = createChart(
-    document.getElementById("memoryChart").getContext("2d"),
-    "memory"
-  );
-  chartConfigs.responseTime.chart = createChart(
-    document.getElementById("responseTimeChart").getContext("2d"),
-    "responseTime"
-  );
-}
+      function updateChart(chart, newValue) {
+        const now = new Date();
+        chart.data.labels.push(now.toLocaleTimeString());
+        chart.data.datasets[0].data.push(newValue);
+        if (chart.data.labels.length > 60) {
+          chart.data.labels.shift();
+          chart.data.datasets[0].data.shift();
+        }
+        chart.update("none");
+      }
 
-async function fetchStats() {
-  try {
-    const startTime = performance.now();
-    const response = await fetch("/api/server-stats");
-    const data = await response.json();
-    const endTime = performance.now();
-    const clientResponseTime = endTime - startTime;
+      function initCharts() {
+        chartConfigs.cpu.chart = createChart(
+          document.getElementById("cpuChart").getContext("2d"),
+          "cpu"
+        );
+        chartConfigs.memory.chart = createChart(
+          document.getElementById("memoryChart").getContext("2d"),
+          "memory"
+        );
+        chartConfigs.responseTime.chart = createChart(
+          document.getElementById("responseTimeChart").getContext("2d"),
+          "responseTime"
+        );
+      }
 
-    document.getElementById("cpuUsage").textContent = `${data.cpuUsage.toFixed(
-      1
-    )}%`;
-    document.getElementById("memoryUsage").textContent = `${(
-      data.memoryUsage /
-      (1024 * 1024)
-    ).toFixed(1)} MB`;
-    document.getElementById(
-      "responseTime"
-    ).textContent = `${clientResponseTime.toFixed(2)}ms`;
-    document.getElementById("uptime").textContent = formatUptime(data.uptime);
-    
-    updateChart(chartConfigs.cpu.chart, data.cpuUsage);
-    updateChart(chartConfigs.memory.chart, data.memoryUsage / (1024 * 1024));
-    updateChart(chartConfigs.responseTime.chart, clientResponseTime);
-  } catch (error) {
-    console.error("Error fetching server stats:", error);
-    console.error("Error fetching server stats:", error);
-    document.getElementById("cpuUsage").textContent = "Error";
-    document.getElementById("memoryUsage").textContent = "Error";
-    document.getElementById("uptime").textContent = "Error";
-    document.getElementById("responseTime").textContent = "Error";
-  }
-}
+      async function fetchStats() {
+        try {
+          const startTime = performance.now();
+          const response = await fetch("/api/server-stats");
+          const data = await response.json();
+          const endTime = performance.now();
+          const clientResponseTime = endTime - startTime;
 
-window.addEventListener("load", () => {
-  initCharts();
-  fetchStats();
-  setInterval(fetchStats, 1000);
-});
+          document.getElementById(
+            "cpuUsage"
+          ).textContent = `${data.cpuUsage.toFixed(1)}%`;
+          document.getElementById("memoryUsage").textContent = `${(
+            data.memoryUsage /
+            (1024 * 1024)
+          ).toFixed(1)} MB`;
+          document.getElementById(
+            "responseTime"
+          ).textContent = `${clientResponseTime.toFixed(2)}ms`;
+          document.getElementById("uptime").textContent = formatUptime(
+            data.uptime
+          );
 
+          updateChart(chartConfigs.cpu.chart, data.cpuUsage);
+          updateChart(
+            chartConfigs.memory.chart,
+            data.memoryUsage / (1024 * 1024)
+          );
+          updateChart(chartConfigs.responseTime.chart, clientResponseTime);
+        } catch (error) {
+          console.error("Error fetching server stats:", error);
+          console.error("Error fetching server stats:", error);
+          document.getElementById("cpuUsage").textContent = "Error";
+          document.getElementById("memoryUsage").textContent = "Error";
+          document.getElementById("uptime").textContent = "Error";
+          document.getElementById("responseTime").textContent = "Error";
+        }
+      }
+
+      window.addEventListener("load", () => {
+        initCharts();
+        fetchStats();
+        setInterval(fetchStats, 1000);
+      });
     </script>
   </body>
 </html>
