@@ -79,8 +79,6 @@ async function validateRequest(request, reply) {
 
 function gtpsData(IP, udpPort, loginURL, maintText = "") {
   return `server|${IP}
-error|1000|Update is now available for your device. Go get it! You'll need to install it before you can play online.
-url|market://details?id=com.rtsoft.growtopia
 port|${udpPort}
 type|1
 loginurl|${loginURL}
