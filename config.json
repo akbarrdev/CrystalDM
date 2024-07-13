@@ -68,7 +68,7 @@
         },
         "rateLimiter": {
             "enabled": true,
-            "limit": 10,
+            "limit": 67,
             "per": "1 minute",
             "cache": 10000,
             "headers": {
