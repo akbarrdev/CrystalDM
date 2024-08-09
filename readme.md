@@ -1,5 +1,7 @@
 # CrystalDM - Advanced DDoS Mitigation System for GTPS
 
+[![wakatime](https://wakatime.com/badge/github/akbarrdev/CrystalDM.svg)](https://wakatime.com/badge/github/akbarrdev/CrystalDM)
+
 CrystalDM is an advanced DDoS Mitigation System specifically designed for Growtopia Private Servers (GTPS) using Node.js. Developed by Akbarrdev, this system offers comprehensive logging, multiple security plugins, and server monitoring capabilities.
 
 ## Features
